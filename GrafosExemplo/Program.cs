@@ -1,51 +1,38 @@
 ﻿using GrafosExemplo;
 using System.Text.Json;
 
-// Definição de nosso vértice base, de onde começaremos
-// a fazer nossa pesquisa de conteúdo de grafo.
-var baseNode = new Node("You", new List<string>
-{
-    "Coding",
-    "Playing videogames",
-    "Watching birds",
-    "Drinking water"
-});
+List<Node> nodes = new List<Node>(); // Lista de Vertices de nossos verices
 
-// Definição das conexões e sub-conexões que nosso vértice
-// base terá, com itens na categoria "Hobbies" semelhantes
-// para oferecer uma pesquisa com resultados válidos.
-var friend1 = new Node("Friend 1", new List<string>()
-{
-    "Driving cars",
-    "Watching birds",
-    "Drinking water"
-});
 
-var friend2 = new Node("Friend 2", new List<string>()
-{
-    "Riding dinosaus",
-    "Petting dogs",
-    "Drinking monster"
-});
+// Criação do nosso Vertice base e adição dele na nossa lista de nodos
+Node baseNode = new Node("You", new List<string> { "Coding", "Playing videogames", "Watching birds", "Drinking water" }, true);
+nodes.Add(baseNode);
 
-var friend3 = new Node("Friend 3", new List<string>()
-{
-    "Driving cars",
-    "Drinking water"
-});
+//Criação de nossos nodods "friends" através de uma lista
+string[] friendNames = { "Friend 1", "Friend 2", "Friend 3", "Friend 4" };
+string[][] friendHobbies = {
+    new string[] { "Driving cars", "Watching birds", "Drinking water" },
+    new string[] { "Riding dinosaurs", "Petting dogs", "Drinking monster" },
+    new string[] { "Driving cars", "Drinking water" },
+    new string[] { "Watching birds" }
+};
 
-var friend4 = new Node("Friend 4", new List<string>()
+// Iteração e criação de novos nodos
+for (int i = 0; i < friendNames.Length; i++)
 {
-    "Watching birds"
-});
+    Node friend = new Node(friendNames[i], new List<string>(friendHobbies[i]), false);
+    nodes.Add(friend);
+}
 
 // Montaremos o esqueleto dos grafos definindo as conexões por
 // referência com o método que criamos mais cedo, na definição
 // da classe "Node".
-baseNode.AddConnection(friend1);
-baseNode.AddConnection(friend2);
-friend1.AddConnection(friend3);
-friend2.AddConnection(friend4);
+
+baseNode.AddConnection(nodes[1]);
+baseNode.AddConnection(nodes[2]);
+nodes[1].AddConnection(nodes[3]);
+nodes[2].AddConnection(nodes[4]);
+
 
 // Para servir de resultado da nossa pesquisa de grafo, criamos
 // a lista "result" que conterá os vértices encontrados no grafo
